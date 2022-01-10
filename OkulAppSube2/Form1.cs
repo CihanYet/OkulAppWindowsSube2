@@ -44,40 +44,24 @@ namespace OkulAppSube2
 
         private void btnBul_Click(object sender, EventArgs e)
         {
-            SqlConnection cn = null;
-            try
+            OgrenciBL obl = new OgrenciBL();
+            Ogrenci ogr = obl.OgrenciGetir(txtBul.Text.Trim());
+
+            if (ogr==null)
             {
-                cn = new SqlConnection(ConfigurationManager.ConnectionStrings["cstr"].ConnectionString);
-                if (cn != null)
-                {
-                    cn.Open();
-                }
-                SqlCommand cmd = new SqlCommand($"Select * from tblOgrenciler Where Numara={txtBul.Text}", cn);
-                SqlDataReader dr = cmd.ExecuteReader();
-
-                if (dr.Read())
-                {
-                    txtAd.Text = dr["Ad"].ToString();
-                    txtSoyad.Text = dr["Soyad"].ToString();
-                    txtNumara.Text = dr["Numara"].ToString();
-                    // txtSinifId.Text = dr["SinifId"].ToString();
-                    txtTcKimlik.Text = dr["TcKimlik"].ToString();
-                }
-                dr.Close();
-
+                MessageBox.Show("Öğrenci Bulunamadı!");
             }
-            catch (Exception)
+            else
             {
-
-            }
-            finally
-            {
-                if (cn != null && cn.State != ConnectionState.Closed)//Null Check
-                {
-                    cn.Close();
-                }
+                txtAd.Text = ogr.Ad;
+                txtSoyad.Text = ogr.Soyad;
+                txtNumara.Text = ogr.Numara;
+                txtTcKimlik.Text = ogr.Tckimlik;
+                cmbSiniflar.SelectedValue = ogr.Sinifid;
             }
         }
+
+
         //Garbage Collector
         private void Form1_Load(object sender, EventArgs e)
         {

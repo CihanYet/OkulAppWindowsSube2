@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,15 @@ namespace DAL
             {
                 throw;
             }
+        }
+
+        public SqlDataReader ExecuteReader(string cmdtext)
+        {
+            cn = new SqlConnection(ConfigurationManager.ConnectionStrings["cstr"].ConnectionString);
+            cmd = new SqlCommand(cmdtext, cn);
+            cn.Open();
+            return cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
         }
     }
 }
