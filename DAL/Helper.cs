@@ -15,12 +15,19 @@ namespace DAL
 
         public int ExecuteNonQuery(string cmdtext)
         {
-            cn = new SqlConnection(ConfigurationManager.ConnectionStrings["cstr"].ConnectionString);
-            cmd = new SqlCommand(cmdtext, cn);
-            cn.Open();
-            int sonuc = cmd.ExecuteNonQuery();
-            cn.Close();
-            return sonuc;
+            try
+            {
+                cn = new SqlConnection(ConfigurationManager.ConnectionStrings["cstr"].ConnectionString);
+                cmd = new SqlCommand(cmdtext, cn);
+                cn.Open();
+                int sonuc = cmd.ExecuteNonQuery();
+                cn.Close();
+                return sonuc;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

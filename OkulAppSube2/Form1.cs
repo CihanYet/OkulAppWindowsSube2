@@ -23,9 +23,23 @@ namespace OkulAppSube2
 
         private void btnKaydet_Click(object sender, EventArgs e)
         {
-            OgrenciBL obl = new OgrenciBL();  
-
-            MessageBox.Show(obl.OgrenciEkle(new Ogrenci { Ad = txtAd.Text, Soyad = txtSoyad.Text, Numara = txtNumara.Text, Sinifid = (int)cmbSiniflar.SelectedValue, Tckimlik = txtTcKimlik.Text })?"Ekleme Başarılı":"Ekleme Başarısız");
+            try
+            {
+                OgrenciBL obl = new OgrenciBL();
+                MessageBox.Show(obl.OgrenciEkle(new Ogrenci { Ad = txtAd.Text, Soyad = txtSoyad.Text, Numara = txtNumara.Text, Sinifid = 1, Tckimlik = txtTcKimlik.Text }) ? "Ekleme Başarılı" : "Ekleme Başarısız");
+            }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (SqlException)
+            {
+                MessageBox.Show("Veritabanı Hatası");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Bilinmeyen Hata!");
+            }
         }
 
         private void btnBul_Click(object sender, EventArgs e)
